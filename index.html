@@ -1064,23 +1064,6 @@
   </div>
 
   <script>
-function login() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const errorMessage = document.getElementById("errorMessage");
-
-  if (username !== "" && password !== "") {
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("shoppingApp").style.display = "block";
-    document.getElementById("loggedUser").innerText = username;
-    errorMessage.innerText = "";
-
-    renderProducts(products);
-  } else {
-    errorMessage.innerText = "Please enter username and password.";
-  }
-}
-
     let cart = [];
     let wishlist = [];
     let currentProductList = [];
@@ -1335,15 +1318,14 @@ function login() {
       const password = document.getElementById("password").value.trim();
       const errorMessage = document.getElementById("errorMessage");
 
-      if (username === validUsername && password === validPassword) {
+      if (username !== "" && password !== "") {
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("shoppingApp").style.display = "block";
         document.getElementById("loggedUser").innerText = username;
         errorMessage.innerText = "";
-
         renderProducts(products);
       } else {
-        errorMessage.innerText = "Invalid username or password.";
+        errorMessage.innerText = "Please enter username and password.";
       }
     }
 
