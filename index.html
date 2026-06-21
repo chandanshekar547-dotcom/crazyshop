@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrazyShop</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    .login-page {
+      height: 100vh;
+      background: linear-gradient(135deg, #f72585, #4361ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 360px;
+      background: white;
+      border-radius: 22px;
+      padding: 35px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+
+    .login-logo {
+      font-size: 34px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .login-logo span {
+      color: #ff5a00;
+    }
+
+    .login-box p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .login-box input:focus {
+      border-color: #f72585;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      background: #f72585;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background: #d9046d;
+    }
+
+    .error {
+      margin-top: 14px;
+      color: red;
+      font-size: 14px;
+    }
+
+    #shoppingApp {
+      display: none;
+    }
+
+    .navbar {
+      width: 100%;
+      background: #ffffff;
+      padding: 16px 45px;
+      display: grid;
+      grid-template-columns: 230px 1fr 430px;
+      align-items: center;
+      gap: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .logo-icon {
+      font-size: 34px;
+    }
+
+    .logo span {
+      color: #ff5a00;
+    }
+
+    .search-box {
+      background: #f1f1f1;
+      border-radius: 30px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      height: 48px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 22px;
+      font-size: 16px;
+    }
+
+    .nav-item {
+      cursor: pointer;
+      color: #222;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      color: #f72585;
+    }
+
+    .count-badge {
+      background: #f72585;
+      color: white;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: -12px;
+      right: -10px;
+    }
+
+    .hero {
+      min-height: 500px;
+      background:
+        radial-gradient(circle at left, rgba(67,97,238,0.14), transparent 35%),
+        radial-gradient(circle at right, rgba(247,37,133,0.16), transparent 35%),
+        linear-gradient(110deg, #edf2ff 0%, #fff 50%, #ffeaf5 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 50px 70px 120px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-model {
+      height: 390px;
+      border-radius: 30px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.12);
+    }
+
+    .hero-left {
+      background-image: url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700");
+    }
+
+    .hero-right {
+      background-image: url("https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=700");
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+    }
+
+    .hero-content h1 {
+      font-size: 78px;
+      line-height: 0.95;
+      letter-spacing: 10px;
+      background: linear-gradient(90deg, #f72585, #4361ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .hero-content h3 {
+      font-size: 24px;
+      letter-spacing: 5px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .offer {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .offer span {
+      color: #f72585;
+      font-size: 54px;
+    }
+
+    .offer-strip {
+      background: linear-gradient(90deg, #f72585, #4361ee);
+      color: white;
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 30px;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .shop-now-btn {
+      background: #f72585;
+      color: white;
+      border: none;
+      padding: 15px 45px;
+      font-size: 18px;
+      border-radius: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(247,37,133,0.3);
+    }
+
+    .shop-now-btn:hover {
+      background: #d9046d;
+    }
+
+    .brand-strip {
+      width: 88%;
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      padding: 22px 35px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 35px;
+      position: relative;
+      margin: -70px auto 35px;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .brand-strip div {
+      font-size: 30px;
+      font-weight: 900;
+      color: #111;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .brand-strip div:hover {
+      color: #f72585;
+      transform: scale(1.08);
+    }
+
+    .brand-strip .orange {
+      color: #ff5a00;
+    }
+
+    .brand-strip .red {
+      color: #d90429;
+    }
+
+    .category-section {
+      padding: 25px 50px 10px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      gap: 15px;
+    }
+
+    .section-title h2 {
+      font-size: 30px;
+    }
+
+    .section-title span {
+      color: #777;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .category-card {
+      min-height: 210px;
+      background: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: 0.3s;
+      overflow: hidden;
+    }
+
+    .category-card:hover {
+      transform: translateY(-7px);
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+    }
+
+    .category-card h3 {
+      font-size: 22px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .category-card p {
+      color: #777;
+      margin-bottom: 18px;
+    }
+
+    .category-card a {
+      color: #4361ee;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .cat-tv {
+      background: #eaf7ff;
+    }
+
+    .cat-mobile {
+      background: #fff4e6;
+    }
+
+    .cat-laptop {
+      background: #f0f7ff;
+    }
+
+    .cat-headphone {
+      background: #eefbf3;
+    }
+
+    .products-section {
+      padding: 30px 50px 50px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-7px);
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #f72585;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      z-index: 2;
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: white;
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+      z-index: 2;
+    }
+
+    .wishlist-btn.active {
+      background: #f72585;
+      color: white;
+    }
+
+    .product-img {
+      height: 210px;
+      background: #f7f7f7;
+      padding: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .product-img img {
+      max-width: 100%;
+      max-height: 170px;
+      object-fit: contain;
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .brand-name {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: #4361ee;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .product-info h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .product-info p {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 12px;
+      min-height: 38px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .price {
+      color: #f72585;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .old-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 14px;
+    }
+
+    .add-cart-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #111;
+      color: white;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .add-cart-btn:hover {
+      background: #f72585;
+    }
+
+    .reset-btn {
+      padding: 10px 16px;
+      border: none;
+      background: #111;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .reset-btn:hover {
+      background: #f72585;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      width: 95%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      color: #f72585;
+    }
+
+    .close-btn {
+      font-size: 30px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .cart-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+
+    .cart-row.header {
+      font-weight: bold;
+      border-bottom: 2px solid #222;
+    }
+
+    .cart-total {
+      text-align: right;
+      font-size: 24px;
+      font-weight: bold;
+      color: #f72585;
+      margin-top: 20px;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 35px;
+      color: #777;
+    }
+
+    .modal-actions {
+      margin-top: 22px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .clear-btn,
+    .checkout-btn,
+    .small-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .clear-btn {
+      background: #eee;
+      color: #222;
+    }
+
+    .checkout-btn {
+      background: #f72585;
+      color: white;
+    }
+
+    .small-btn {
+      background: #111;
+      color: white;
+    }
+
+    .payment-box {
+      max-width: 480px;
+    }
+
+    .payment-summary {
+      background: #f7f7f7;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .payment-summary h3 {
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .payment-amount {
+      font-size: 32px;
+      font-weight: bold;
+      color: #f72585;
+    }
+
+    .payment-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .payment-form input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .payment-form input:focus {
+      border-color: #f72585;
+    }
+
+    .payment-form button {
+      width: 100%;
+      padding: 14px;
+      background: #f72585;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .payment-form button:hover {
+      background: #d9046d;
+    }
+
+    .payment-error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .demo-note {
+      margin-top: 15px;
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .success-box {
+      max-width: 540px;
+      text-align: center;
+      padding: 45px 35px;
+    }
+
+    .success-icon {
+      font-size: 70px;
+      margin-bottom: 15px;
+    }
+
+    .success-box h1 {
+      color: #f72585;
+      margin-bottom: 15px;
+      font-size: 34px;
+    }
+
+    .success-box h2 {
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .success-box p {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 16px;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 1150px) {
+      .navbar {
+        grid-template-columns: 1fr;
+        padding: 16px 25px;
+      }
+
+      .nav-actions {
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 35px 25px 100px;
+      }
+
+      .hero-model {
+        display: none;
+      }
+
+      .hero-content h1 {
+        font-size: 56px;
+      }
+
+      .category-grid,
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .logo {
+        font-size: 24px;
+      }
+
+      .nav-actions {
+        font-size: 14px;
+        gap: 14px;
+      }
+
+      .hero-content h1 {
+        font-size: 42px;
+        letter-spacing: 4px;
+      }
+
+      .hero-content h3 {
+        font-size: 16px;
+      }
+
+      .offer span {
+        font-size: 40px;
+      }
+
+      .brand-strip {
+        width: 92%;
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      .brand-strip div {
+        font-size: 22px;
+      }
+
+      .category-section,
+      .products-section {
+        padding: 25px 18px;
+      }
+
+      .category-grid,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cart-row {
+        grid-template-columns: 1.4fr 0.7fr 1fr 1fr;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div class="login-page" id="loginPage">
+    <div class="login-box">
+      <div class="login-logo">Crazy<span>Shop</span></div>
+      <p>Login to explore latest shopping deals</p>
+
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+
+      <button onclick="login()">Login</button>
+
+      <div class="error" id="errorMessage"></div>
+    </div>
+  </div>
+
+  <!-- SHOPPING APP -->
+  <div id="shoppingApp">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="logo">
+        <div class="logo-icon">🛒</div>
+        Crazy<span>Shop</span>
+      </div>
+
+      <div class="search-box">
+        🔍
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search Products, Brands, Categories..."
+          onkeyup="searchProducts()"
+        />
+      </div>
+
+      <div class="nav-actions">
+        <div class="nav-item" onclick="openWishlist()">
+          ❤ Wishlist
+          <span class="count-badge" id="wishlistCount">0</span>
+        </div>
+
+        <div class="nav-item" onclick="openCart()">
+          🛒 Cart
+          <span class="count-badge" id="cartCount">0</span>
+        </div>
+
+        <div class="nav-item">
+          👤 <span id="loggedUser">Account</span>
+        </div>
+
+        <div class="nav-item" onclick="logout()">Logout</div>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-model hero-left"></div>
+
+      <div class="hero-content">
+        <h1>SUMMER<br>SALE</h1>
+        <h3>NEW FASHION COLLECTION 2026</h3>
+
+        <div class="offer">
+          UP TO <span>70%</span> OFF
+        </div>
+
+        <div class="offer-strip">
+          Premium Fashion • Free Delivery • Easy Returns
+        </div>
+
+        <br>
+        <button class="shop-now-btn" onclick="scrollToProducts()">SHOP NOW</button>
+      </div>
+
+      <div class="hero-model hero-right"></div>
+    </section>
+
+    <!-- BRAND STRIP -->
+    <section class="brand-strip">
+      <div onclick="filterBrand('nike')">NIKE</div>
+      <div onclick="filterBrand('adidas')">adidas</div>
+      <div onclick="filterBrand('puma')">PUMA</div>
+      <div class="red" onclick="filterBrand('levis')">Levi's</div>
+      <div onclick="filterBrand('fossil')">FOSSIL</div>
+      <div class="orange" onclick="filterBrand('zara')">ZARA</div>
+    </section>
+
+    <!-- CATEGORY SECTION -->
+    <section class="category-section">
+      <div class="section-title">
+        <h2>Shop by Category</h2>
+        <span>Best offers for you</span>
+      </div>
+
+      <div class="category-grid">
+        <div class="category-card cat-tv" onclick="filterCategory('tv')">
+          <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500" alt="Smart TV">
+          <div>
+            <h3>SMART TVs</h3>
+            <p>Up to 45% Off</p>
+            <a>Shop Now</a>
+          </div>
+        </div>
+
+        <div class="category-card cat-mobile" onclick="filterCategory('mobile')">
+          <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500" alt="Mobiles">
+          <div>
+            <h3>MOBILES</h3>
+            <p>Up to 50% Off</p>
+            <a>Shop Now</a>
+          </div>
+        </div>
+
+        <div class="category-card cat-laptop" onclick="filterCategory('laptop')">
+          <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500" alt="Laptops">
+          <div>
+            <h3>LAPTOPS</h3>
+            <p>Up to 40% Off</p>
+            <a>Shop Now</a>
+          </div>
+        </div>
+
+        <div class="category-card cat-headphone" onclick="filterCategory('headphone')">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="Headphones">
+          <div>
+            <h3>HEADPHONES</h3>
+            <p>Up to 70% Off</p>
+            <a>Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="products-section" id="productsSection">
+      <div class="section-title">
+        <h2>Trending Products</h2>
+
+        <div>
+          <span id="productFilterLabel">Showing all products</span>
+          &nbsp;
+          <button class="reset-btn" onclick="showAllProducts()">Show All</button>
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <footer>
+      © 2026 CrazyShop. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- CART MODAL -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Your Cart Details</h2>
+        <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
+      </div>
+
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal"></div>
+
+      <div class="modal-actions">
+        <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+        <button class="checkout-btn" onclick="openPayment()">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WISHLIST MODAL -->
+  <div class="modal" id="wishlistModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Your Wishlist</h2>
+        <span class="close-btn" onclick="closeModal('wishlistModal')">&times;</span>
+      </div>
+
+      <div id="wishlistItems"></div>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal" id="paymentModal">
+    <div class="modal-content payment-box">
+      <div class="modal-header">
+        <h2>Payment Details</h2>
+        <span class="close-btn" onclick="closeModal('paymentModal')">&times;</span>
+      </div>
+
+      <div class="payment-summary">
+        <h3>Amount to Pay</h3>
+        <div class="payment-amount" id="paymentAmount">₹0</div>
+      </div>
+
+      <div class="payment-form">
+        <label>Card Number</label>
+        <input type="text" id="cardNumber" placeholder="Enter card number" />
+
+        <label>Password</label>
+        <input type="password" id="cardPassword" placeholder="Enter password" />
+
+        <div class="payment-error" id="paymentError"></div>
+
+        <button onclick="completePayment()">Pay Now</button>
+      </div>
+
+      <p class="demo-note">
+        Demo Payment Only<br>
+        Card Number: <b>123456</b> | Password: <b>123</b>
+      </p>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal" id="successModal">
+    <div class="modal-content success-box">
+      <div class="success-icon">🎉</div>
+      <h1>Congratulations!</h1>
+      <h2>Order placed successfully.</h2>
+      <p>Thank you for shopping with CrazyShop.</p>
+
+      <button class="checkout-btn" onclick="closeModal('successModal')">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const validUsername = "subramanya";
+    const validPassword = "King123";
+
+    let cart = [];
+    let wishlist = [];
+    let currentProductList = [];
+
+    const products = [
+      {
+        id: 1,
+        name: "Nike Air Sports Shoes",
+        brand: "nike",
+        category: "fashion",
+        price: 3499,
+        oldPrice: 5999,
+        discount: "40% OFF",
+        description: "Premium Nike running shoes for sports and daily use.",
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+      },
+      {
+        id: 2,
+        name: "Nike Training T-Shirt",
+        brand: "nike",
+        category: "fashion",
+        price: 999,
+        oldPrice: 1999,
+        discount: "50% OFF",
+        description: "Comfortable Nike training wear for workouts.",
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"
+      },
+      {
+        id: 3,
+        name: "Nike Sports Cap",
+        brand: "nike",
+        category: "fashion",
+        price: 799,
+        oldPrice: 1499,
+        discount: "47% OFF",
+        description: "Stylish Nike cap for outdoor and sports activities.",
+        image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500"
+      },
+      {
+        id: 4,
+        name: "Adidas Casual Sneakers",
+        brand: "adidas",
+        category: "fashion",
+        price: 2999,
+        oldPrice: 4999,
+        discount: "40% OFF",
+        description: "Stylish Adidas sneakers for everyday fashion.",
+        image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500"
+      },
+      {
+        id: 5,
+        name: "Adidas Sports Jacket",
+        brand: "adidas",
+        category: "fashion",
+        price: 2499,
+        oldPrice: 4499,
+        discount: "45% OFF",
+        description: "Trendy Adidas sports jacket for active lifestyle.",
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500"
+      },
+      {
+        id: 6,
+        name: "Adidas Gym Bag",
+        brand: "adidas",
+        category: "fashion",
+        price: 1299,
+        oldPrice: 2499,
+        discount: "48% OFF",
+        description: "Spacious gym bag for travel, sports, and workouts.",
+        image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500"
+      },
+      {
+        id: 7,
+        name: "Puma Running Shoes",
+        brand: "puma",
+        category: "fashion",
+        price: 2799,
+        oldPrice: 4999,
+        discount: "45% OFF",
+        description: "Lightweight Puma running shoes with soft comfort.",
+        image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500"
+      },
+      {
+        id: 8,
+        name: "Puma Backpack",
+        brand: "puma",
+        category: "fashion",
+        price: 1299,
+        oldPrice: 2499,
+        discount: "48% OFF",
+        description: "Stylish Puma backpack for office, college, and travel.",
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"
+      },
+      {
+        id: 9,
+        name: "Puma Hoodie",
+        brand: "puma",
+        category: "fashion",
+        price: 1999,
+        oldPrice: 3499,
+        discount: "43% OFF",
+        description: "Comfortable hoodie for casual and winter wear.",
+        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500"
+      },
+      {
+        id: 10,
+        name: "Levi's Denim Jacket",
+        brand: "levis",
+        category: "fashion",
+        price: 3199,
+        oldPrice: 5999,
+        discount: "47% OFF",
+        description: "Classic Levi's denim jacket for premium fashion.",
+        image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500"
+      },
+      {
+        id: 11,
+        name: "Levi's Blue Jeans",
+        brand: "levis",
+        category: "fashion",
+        price: 2299,
+        oldPrice: 3999,
+        discount: "42% OFF",
+        description: "Comfortable Levi's jeans with modern fit.",
+        image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500"
+      },
+      {
+        id: 12,
+        name: "Levi's Casual Shirt",
+        brand: "levis",
+        category: "fashion",
+        price: 1499,
+        oldPrice: 2999,
+        discount: "50% OFF",
+        description: "Smart casual shirt for daily and weekend wear.",
+        image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500"
+      },
+      {
+        id: 13,
+        name: "Fossil Premium Watch",
+        brand: "fossil",
+        category: "watch",
+        price: 8999,
+        oldPrice: 12999,
+        discount: "30% OFF",
+        description: "Elegant Fossil watch for professional style.",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+      },
+      {
+        id: 14,
+        name: "Fossil Leather Wallet",
+        brand: "fossil",
+        category: "fashion",
+        price: 1999,
+        oldPrice: 3499,
+        discount: "43% OFF",
+        description: "Premium leather wallet with elegant design.",
+        image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500"
+      },
+      {
+        id: 15,
+        name: "Fossil Sunglasses",
+        brand: "fossil",
+        category: "fashion",
+        price: 2499,
+        oldPrice: 4499,
+        discount: "44% OFF",
+        description: "Stylish sunglasses for summer and travel.",
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500"
+      },
+      {
+        id: 16,
+        name: "Zara Fashion Jacket",
+        brand: "zara",
+        category: "fashion",
+        price: 2999,
+        oldPrice: 4999,
+        discount: "40% OFF",
+        description: "Modern Zara jacket from the latest collection.",
+        image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=500"
+      },
+      {
+        id: 17,
+        name: "Zara Casual Shirt",
+        brand: "zara",
+        category: "fashion",
+        price: 1599,
+        oldPrice: 2999,
+        discount: "47% OFF",
+        description: "Stylish casual shirt for daily and party wear.",
+        image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500"
+      },
+      {
+        id: 18,
+        name: "Zara Handbag",
+        brand: "zara",
+        category: "fashion",
+        price: 2499,
+        oldPrice: 4499,
+        discount: "44% OFF",
+        description: "Premium handbag with modern fashion design.",
+        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"
+      },
+      {
+        id: 19,
+        name: "Smart LED TV",
+        brand: "crazyshop",
+        category: "tv",
+        price: 24999,
+        oldPrice: 34999,
+        discount: "30% OFF",
+        description: "Ultra HD smart TV with amazing picture clarity.",
+        image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500"
+      },
+      {
+        id: 20,
+        name: "Premium Smartphone",
+        brand: "crazyshop",
+        category: "mobile",
+        price: 19999,
+        oldPrice: 29999,
+        discount: "35% OFF",
+        description: "Fast performance, great camera, and long battery life.",
+        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500"
+      },
+      {
+        id: 21,
+        name: "Gaming Laptop",
+        brand: "crazyshop",
+        category: "laptop",
+        price: 62999,
+        oldPrice: 78999,
+        discount: "20% OFF",
+        description: "Powerful laptop for work, gaming, and study.",
+        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500"
+      },
+      {
+        id: 22,
+        name: "Wireless Headphones",
+        brand: "crazyshop",
+        category: "headphone",
+        price: 2499,
+        oldPrice: 4999,
+        discount: "50% OFF",
+        description: "Deep bass headphones with noise cancellation.",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+      }
+    ];
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+
+      if (username === validUsername && password === validPassword) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("shoppingApp").style.display = "block";
+        document.getElementById("loggedUser").innerText = username;
+        errorMessage.innerText = "";
+
+        renderProducts(products);
+      } else {
+        errorMessage.innerText = "Invalid username or password.";
+      }
+    }
+
+    function logout() {
+      document.getElementById("shoppingApp").style.display = "none";
+      document.getElementById("loginPage").style.display = "flex";
+
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("searchInput").value = "";
+
+      cart = [];
+      wishlist = [];
+      currentProductList = [];
+
+      updateCounts();
+      closeModal("cartModal");
+      closeModal("wishlistModal");
+      closeModal("paymentModal");
+      closeModal("successModal");
+    }
+
+    function renderProducts(productList) {
+      currentProductList = productList;
+
+      const grid = document.getElementById("productsGrid");
+      grid.innerHTML = "";
+
+      if (productList.length === 0) {
+        grid.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      productList.forEach(product => {
+        const isWishlisted = wishlist.includes(product.id);
+
+        grid.innerHTML += `
+          <div class="product-card">
+            <div class="discount-badge">${product.discount}</div>
+
+            <button class="wishlist-btn ${isWishlisted ? "active" : ""}" onclick="toggleWishlist(${product.id})">
+              ❤
+            </button>
+
+            <div class="product-img">
+              <img src="${product.image}" alt="${product.name}">
+            </div>
+
+            <div class="product-info">
+              <span class="brand-name">${product.brand}</span>
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+
+              <div class="price-row">
+                <div class="price">₹${product.price.toLocaleString()}</div>
+                <div class="old-price">₹${product.oldPrice.toLocaleString()}</div>
+              </div>
+
+              <button class="add-cart-btn" onclick="addToCart(${product.id})">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existingItem = cart.find(item => item.id === productId);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          quantity: 1
+        });
+      }
+
+      updateCounts();
+      alert(product.name + " added to cart!");
+    }
+
+    function openCart() {
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+
+      cartItems.innerHTML = "";
+      cartTotal.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `<div class="empty-msg">Your cart is empty.</div>`;
+        document.getElementById("cartModal").style.display = "flex";
+        return;
+      }
+
+      let html = `
+        <div class="cart-row header">
+          <div>Product</div>
+          <div>Qty</div>
+          <div>Price</div>
+          <div>Total</div>
+        </div>
+      `;
+
+      let grandTotal = 0;
+
+      cart.forEach(item => {
+        const total = item.price * item.quantity;
+        grandTotal += total;
+
+        html += `
+          <div class="cart-row">
+            <div>${item.name}</div>
+            <div>${item.quantity}</div>
+            <div>₹${item.price.toLocaleString()}</div>
+            <div>₹${total.toLocaleString()}</div>
+          </div>
+        `;
+      });
+
+      cartItems.innerHTML = html;
+      cartTotal.innerHTML = "Grand Total: ₹" + grandTotal.toLocaleString();
+
+      document.getElementById("cartModal").style.display = "flex";
+    }
+
+    function clearCart() {
+      cart = [];
+      updateCounts();
+      openCart();
+    }
+
+    function getCartGrandTotal() {
+      return cart.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+      }, 0);
+    }
+
+    function openPayment() {
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      const grandTotal = getCartGrandTotal();
+
+      document.getElementById("paymentAmount").innerText =
+        "₹" + grandTotal.toLocaleString();
+
+      document.getElementById("cardNumber").value = "";
+      document.getElementById("cardPassword").value = "";
+      document.getElementById("paymentError").innerText = "";
+
+      closeModal("cartModal");
+      document.getElementById("paymentModal").style.display = "flex";
+    }
+
+    function completePayment() {
+      const cardNumber = document.getElementById("cardNumber").value.trim();
+      const cardPassword = document.getElementById("cardPassword").value.trim();
+      const paymentError = document.getElementById("paymentError");
+
+      if (cardNumber === "123456" && cardPassword === "123") {
+        paymentError.innerText = "";
+
+        cart = [];
+        updateCounts();
+
+        closeModal("paymentModal");
+        document.getElementById("successModal").style.display = "flex";
+      } else {
+        paymentError.innerText = "Invalid card number or password. Use 123456 and 123 for demo payment.";
+      }
+    }
+
+    function toggleWishlist(productId) {
+      if (wishlist.includes(productId)) {
+        wishlist = wishlist.filter(id => id !== productId);
+      } else {
+        wishlist.push(productId);
+      }
+
+      updateCounts();
+      renderProducts(currentProductList.length ? currentProductList : products);
+    }
+
+    function openWishlist() {
+      const wishlistItems = document.getElementById("wishlistItems");
+      wishlistItems.innerHTML = "";
+
+      if (wishlist.length === 0) {
+        wishlistItems.innerHTML = `<div class="empty-msg">Your wishlist is empty.</div>`;
+        document.getElementById("wishlistModal").style.display = "flex";
+        return;
+      }
+
+      let html = `
+        <div class="cart-row header">
+          <div>Product</div>
+          <div>Brand</div>
+          <div>Price</div>
+          <div>Action</div>
+        </div>
+      `;
+
+      wishlist.forEach(id => {
+        const product = products.find(p => p.id === id);
+
+        html += `
+          <div class="cart-row">
+            <div>${product.name}</div>
+            <div>${product.brand.toUpperCase()}</div>
+            <div>₹${product.price.toLocaleString()}</div>
+            <div>
+              <button class="small-btn" onclick="addToCart(${product.id})">Add</button>
+            </div>
+          </div>
+        `;
+      });
+
+      wishlistItems.innerHTML = html;
+      document.getElementById("wishlistModal").style.display = "flex";
+    }
+
+    function updateCounts() {
+      const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      document.getElementById("cartCount").innerText = cartCount;
+      document.getElementById("wishlistCount").innerText = wishlist.length;
+    }
+
+    function searchProducts() {
+      const searchText = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchText) ||
+        product.brand.toLowerCase().includes(searchText) ||
+        product.category.toLowerCase().includes(searchText) ||
+        product.description.toLowerCase().includes(searchText)
+      );
+
+      document.getElementById("productFilterLabel").innerText =
+        searchText ? `Search result for "${searchText}"` : "Showing all products";
+
+      renderProducts(filteredProducts);
+    }
+
+    function filterBrand(brandName) {
+      const filteredProducts = products.filter(product => product.brand === brandName);
+
+      document.getElementById("searchInput").value = "";
+      document.getElementById("productFilterLabel").innerText =
+        "Showing " + brandName.toUpperCase() + " products";
+
+      renderProducts(filteredProducts);
+      scrollToProducts();
+    }
+
+    function filterCategory(categoryName) {
+      const filteredProducts = products.filter(product => product.category === categoryName);
+
+      document.getElementById("searchInput").value = "";
+      document.getElementById("productFilterLabel").innerText =
+        "Showing " + categoryName.toUpperCase() + " products";
+
+      renderProducts(filteredProducts);
+      scrollToProducts();
+    }
+
+    function showAllProducts() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("productFilterLabel").innerText = "Showing all products";
+      renderProducts(products);
+      scrollToProducts();
+    }
+
+    function scrollToProducts() {
+      document.getElementById("productsSection").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const cartModal = document.getElementById("cartModal");
+      const wishlistModal = document.getElementById("wishlistModal");
+      const paymentModal = document.getElementById("paymentModal");
+      const successModal = document.getElementById("successModal");
+
+      if (event.target === cartModal) {
+        closeModal("cartModal");
+      }
+
+      if (event.target === wishlistModal) {
+        closeModal("wishlistModal");
+      }
+
+      if (event.target === paymentModal) {
+        closeModal("paymentModal");
+      }
+
+      if (event.target === successModal) {
+        closeModal("successModal");
+      }
+    };
+  </script>
+
+</body>
+</html>
